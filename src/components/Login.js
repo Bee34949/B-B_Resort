@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -9,7 +11,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(""); // ล้างข้อความ Error ก่อนเริ่ม
+        setError("");
 
         try {
             const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -25,14 +27,22 @@ const Login = () => {
             if (response.ok) {
                 // เก็บ Token ลง LocalStorage
                 localStorage.setItem("token", data.token);
-                alert("Login successful!");
-                navigate("/"); // เปลี่ยนเส้นทางไปหน้า Home
+
+                // แจ้งเตือนความสำเร็จ
+                toast.success("Login successful!");
+
+                // Redirect ไปหน้า Dashboard หลังจาก 2 วินาที
+                setTimeout(() => {
+                    navigate("/dashboard");
+                }, 2000);
             } else {
                 setError(data.message || "Invalid email or password");
+                toast.error(data.message || "Invalid email or password");
             }
         } catch (error) {
             console.error("Login error:", error);
             setError("Something went wrong. Please try again later.");
+            toast.error("Something went wrong. Please try again later.");
         }
     };
 

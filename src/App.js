@@ -5,9 +5,14 @@ import BookingForm from "./components/BookingForm";
 import ViewRooms from "./components/ViewRooms";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
-
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./components/Dashboard";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import FloatingChat from "./components/FloatingChat";
 function App() {
     return (
+        
         <Router>
             <div className="app">
                 {/* Header Section */}
@@ -26,7 +31,10 @@ function App() {
                     </div>
                     <Navbar />
                 </header>
-
+                <ToastContainer />
+                {/* คอมโพเนนต์อื่น ๆ */}
+                {/* คอมโพเนนต์อื่นๆ */}
+                <FloatingChat />
                 {/* Hero Section */}
                 <section className="hero">
                     <div className="hero-content">
@@ -62,12 +70,15 @@ function App() {
 
                 {/* Routes */}
                 <Routes>
+                    
                     <Route path="/rooms" element={<ViewRooms />} />
                     <Route path="/booking" element={<BookingForm />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 </Routes>
             </div>
         </Router>
+        
     );
 }
 
